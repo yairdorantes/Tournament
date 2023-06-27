@@ -19,9 +19,7 @@ const BuildingInfo = () => {
 
   return (
     <div>
-      <h1 className="text-white text-center text-xl uppercase">build info</h1>
       <FormBuy />
-      <StripeCom totalPrice={15} />
     </div>
   );
 };

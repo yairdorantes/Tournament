@@ -1,72 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import bgMap from "../media/map.jpg";
 import { Link } from "react-router-dom";
-const buildings = [
-  {
-    id: 1,
-    name: "salon1",
-    description: "lss",
-    location: "toluca",
-    latitude: 19.2826,
-    longitude: -99.6552,
-    available: false,
-    type: "office",
-  },
-  {
-    id: 2,
-    name: "salon2",
-    description: "example",
-    location: "mexico city",
-    latitude: 19.4326,
-    longitude: -99.1332,
-    available: false,
-    type: "salon",
-  },
-  {
-    id: 3,
-    name: "salon3",
-    description: "bar",
-    location: "guadalajara",
-    latitude: 20.6597,
-    longitude: -103.3496,
-    available: true,
-    type: "office",
-  },
-
-  {
-    id: 4,
-    name: "Lorem",
-    description: "ipsum",
-    location: "monterrey",
-    latitude: 25.6866,
-    longitude: -100.3161,
-    available: true,
-    type: "salon",
-  },
-  {
-    id: 4,
-    name: "Lorem",
-    description: "ipsum",
-    location: "monterrey",
-    latitude: 25.6866,
-    longitude: -100.3161,
-    available: true,
-    type: "salon",
-  },
-];
+import BuildSelected from "./BuildSelected";
+import axios from "axios";
+import { api } from "../api";
 
 const Maps = () => {
-  const [buildSelected, setBuildSelected] = useState({ title: "-" });
+  const [buildSelected, setBuildSelected] = useState({});
+  const [showBuilding, setShowBuilding] = useState(false);
+  const [buildings, setBuildings] = useState([]);
+  const getBuildings = () => {
+    axios
+      .get(`${api}/building`)
+      .then((res) => {
+        console.log(res);
+        setBuildings(res.data.buildings);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  useEffect(() => {
+    getBuildings();
+  }, []);
+
   return (
-    <div>
+    <div className="pt-28">
+      <BuildSelected
+        show={showBuilding}
+        building={buildSelected}
+        setShow={setShowBuilding}
+      />
       {/* <input type="date" /> */}
-      <div className="text-white text-lg text-center font-bold">
+      {/* <div className="text-white text-lg text-center font-bold">
         Edificio seleccionado:
         <Link to={`/building/${buildSelected.id}`}>
           {" "}
           <span className="link link-info">{buildSelected.title}</span>
         </Link>
-      </div>
+      </div> */}
       <div className="flex flex-col gap-2 text-white">
         <div className="flex gap-2">
           <div className="bg-success w-7 h-7 rounded-full"></div>
@@ -92,7 +64,8 @@ const Maps = () => {
               {build.type === "office" ? (
                 <div
                   onClick={() => {
-                    setBuildSelected({ title: build.name, id: build.id });
+                    setBuildSelected(build);
+                    setShowBuilding(true);
                   }}
                 >
                   <svg
@@ -110,7 +83,8 @@ const Maps = () => {
               ) : (
                 <div
                   onClick={() => {
-                    setBuildSelected({ title: build.name, id: build.id });
+                    setBuildSelected(build);
+                    setShowBuilding(true);
                   }}
                 >
                   <svg
