@@ -11,7 +11,8 @@ const FormBuy = () => {
   const [hrEnd, setHrEnd] = useState("00:00");
   const [time, setTime] = useState("start");
   const [openModalClock, setOpenModalClock] = useState(false);
-  const [showing, setShowing] = useState(true);
+  const [showing, setShowing] = useState(!false);
+  // change this to true
   const [formData, setFormData] = useState({});
   const { price, id } = useParams();
   const {
@@ -40,6 +41,7 @@ const FormBuy = () => {
         };
         setFormData(newData);
         setShowing(false);
+        console.log(newData);
       }
     } else {
       toast.error("Llena todo los campos por favor");
@@ -49,15 +51,15 @@ const FormBuy = () => {
   return (
     <>
       {showing && (
-        <div className="pt-28">
+        <div className="pt-28 h-screen w-screen bg-base-200">
           <form
             onSubmit={handleSubmit(onSubmit)}
-            className="text-white  max-w-lg mx-auto bg-slate-900 p-4 rounded-lg"
+            className="text-[#2164BD] pb-2 border-2 border-[#48BBe4]  max-w-[38em] mx-auto bg-white p-4 rounded-lg"
           >
             <div className="text-center font-bold mb-2 text-lg">
               Formulario de reservación
             </div>
-            <div className="bg-cyan-500 uppercase text-center font-bold text-xl p-1 w-full">
+            <div className="bg-cyan-500 text-white uppercase text-center font-bold text-xl p-1 w-full">
               informacion personal
             </div>
             <div className="mb-4">
@@ -68,7 +70,7 @@ const FormBuy = () => {
                 type="text"
                 placeholder="Nombre completo"
                 {...register("name", { required: true })}
-                className="mt-2 input input-bordered input-success w-full max-w-xs"
+                className="mt-2 input input-bordered input-success w-full bg-gray-200 text-black"
               />
             </div>{" "}
             <div className="mb-4  ">
@@ -80,7 +82,7 @@ const FormBuy = () => {
                 type="email"
                 placeholder="ejemplo@gmail.com"
                 {...register("email", { required: true })}
-                className="mt-2 input input-bordered input-success w-full max-w-xs"
+                className="mt-2 input input-bordered input-success w-full bg-gray-200 text-black"
               />
             </div>{" "}
             <div className="mb-4">
@@ -91,10 +93,10 @@ const FormBuy = () => {
                 type="text"
                 placeholder="empresa"
                 {...register("company", { required: true })}
-                className="mt-2 input input-bordered input-success w-full max-w-xs"
+                className="mt-2 input  input-bordered input-success w-full bg-gray-200 text-black"
               />
             </div>{" "}
-            <div className="bg-cyan-500 uppercase text-center font-bold text-xl p-1 w-full">
+            <div className="bg-cyan-500 text-white uppercase text-center font-bold text-xl p-1 w-full">
               reservación
             </div>
             <div className="mb-4">
@@ -106,7 +108,7 @@ const FormBuy = () => {
                 type="date"
                 placeholder="empresa"
                 {...register("date", { required: true })}
-                className="mt-2 input input-bordered input-success w-full max-w-xs"
+                className="mt-2 input input-bordered input-success w-full bg-gray-200 text-black"
               />
             </div>{" "}
             <div className="mb-3 badge badge-info">Tipo: </div>
@@ -176,11 +178,11 @@ const FormBuy = () => {
                 setTime("start");
                 setOpenModalClock(true);
               }}
-              className="mb-4 btn btn-sm btn-neutral"
+              className="mb-4 btn btn-sm btn-secondary"
             >
               Seleccionar Hora de inicio
             </button>
-            <span className="badge font-bold ml-2 py-4 badge-success">
+            <span className="badge font-bold ml-2 py-4  text-white  bg-[#2164BD]">
               {hrStart}
             </span>
             <button
@@ -188,15 +190,18 @@ const FormBuy = () => {
                 setTime("end");
                 setOpenModalClock(true);
               }}
-              className="mb-4 btn btn-sm btn-neutral"
+              className="mb-4 btn btn-sm btn-secondary "
             >
               Seleccionar Hora de finalizacion
             </button>
-            <span className="badge py-4 font-bold ml-2 badge-success">
+            <span className="badge py-4 font-bold ml-2 text-white  bg-[#2164BD]">
               {hrEnd}
             </span>
             <div className="text-center">
-              <button type="submit" className="btn btn-info w-3/4 mt-2">
+              <button
+                type="submit"
+                className="btn btn-info text-white rounded font-bold text-xl w-3/4 mt-2"
+              >
                 Enviar
               </button>
             </div>

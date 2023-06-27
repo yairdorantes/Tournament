@@ -25,12 +25,7 @@ const Maps = () => {
   }, []);
 
   return (
-    <div className="pt-28">
-      <BuildSelected
-        show={showBuilding}
-        building={buildSelected}
-        setShow={setShowBuilding}
-      />
+    <div className="pt-[80px]">
       {/* <input type="date" /> */}
       {/* <div className="text-white text-lg text-center font-bold">
         Edificio seleccionado:
@@ -39,23 +34,24 @@ const Maps = () => {
           <span className="link link-info">{buildSelected.title}</span>
         </Link>
       </div> */}
-      <div className="flex flex-col gap-2 text-white">
-        <div className="flex gap-2">
-          <div className="bg-success w-7 h-7 rounded-full"></div>
-          <div>Disponible</div>
-        </div>
-        <div className="flex gap-2">
-          <div className="bg-error w-7 h-7 rounded-full "></div>
-          <div>Ocupado</div>
-        </div>
-      </div>
+
       <div
-        className="min-h-screen bg-cover rounded-lg mt-10 bg-center pt-5 gap-"
+        className="min-h-screen w-screen p-5  bg-cover rounded-lg  bg-center pt-5 "
         style={{
           backgroundImage: `linear-gradient(rgba(4, 4, 4, 0.787), rgba(12, 12, 12, 0.839)), url(${bgMap})`,
         }}
       >
-        <div className="grid  grid-cols-1 gap-y-10 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="flex flex-col mt-5 gap-2 font-bold text-white ">
+          <div className="flex gap-2">
+            <div className="bg-success w-7 h-7 rounded-full"></div>
+            <div>Disponible</div>
+          </div>
+          <div className="flex gap-2">
+            <div className="bg-error w-7 h-7 rounded-full "></div>
+            <div>Ocupado</div>
+          </div>
+        </div>
+        <div className="grid  grid-cols-1 gap-y-20 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {buildings.map((build, i) => (
             <div
               key={i}
@@ -73,7 +69,7 @@ const Maps = () => {
                     fill="currentColor"
                     height="1em"
                     width="1em"
-                    className={`w-20 h-20 hover:scale-150 ${
+                    className={`w-32 h-32 hover:scale-150 ${
                       build.available ? "text-success" : "text-red-500"
                     } transition-all text-gray-200`}
                   >
@@ -92,7 +88,7 @@ const Maps = () => {
                     fill="currentColor"
                     height="1em"
                     width="1em"
-                    className={`w-20 h-20 hover:scale-150 ${
+                    className={`w-32 h-32 hover:scale-150 ${
                       build.available ? "text-success" : "text-red-500"
                     } transition-all text-gray-200`}
                   >
@@ -104,6 +100,11 @@ const Maps = () => {
           ))}
         </div>
       </div>
+      <BuildSelected
+        show={showBuilding}
+        building={buildSelected}
+        setShow={setShowBuilding}
+      />
     </div>
   );
 };

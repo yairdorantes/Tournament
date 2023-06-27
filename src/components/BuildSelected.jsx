@@ -3,12 +3,12 @@ import { Link } from "react-router-dom";
 
 const BuildSelected = ({ show, setShow, building }) => {
   return (
-    <div className=" ">
+    <div className="">
       <div
-        className={`fixed w-[32rem]  transition-all duration-700 left-1/2 ${
-          show ? "bottom-64" : "-bottom-full"
+        className={`absolute w-[32rem]  transition-all duration-700 left-1/2 ${
+          show ? "bottom-64" : "opacity-0 -bottom-0"
         } bottom-10 transform -translate-x-1/2  z-10 border-2 border-blue-400 rounded-md `}
-        data-theme="light"
+        data-theme=""
       >
         <OutsideClickHandler onOutsideClick={() => setShow(false)}>
           <div className="flex gap-2">

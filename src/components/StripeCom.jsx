@@ -6,27 +6,33 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 // import { toast } from "react-hot-toast";
 import { api } from "../api";
 import Loader from "./Loader";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import PDFContext from "../context/PDFContext";
+import AuthContext from "../context/AuthContext";
 // import AuthContext from "../context/AuthContext";
 const stripePromise = loadStripe(
   "pk_test_51KjBqNA9KCn8yVMOEG2TF4LAS9CZwMVfMuAIHu1opMaabVxmgUri9qkETyQ9Q7DGyB6g9bNxEg62zf6dsqQZGdij00t1hmBwwH"
 );
 
 const CheckOut = ({ formData, totalPrice }) => {
-  // const { user } = useContext(AuthContext);
+  const [dataForm, setDataForm] = useState({});
+  const { getPDF, pdfBase64 } = useContext(PDFContext);
   const navigate = useNavigate();
-
+  const { user } = useContext(AuthContext);
+  // console.log(getPDF("Xd"));
   const [loader, setLoader] = useState(false);
   const stripe = useStripe();
   // const redirect = useREd
   const elements = useElements();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const pdf = await getPDF(formData);
+    console.log({ ...formData, pdf: pdfBase64 });
     const amountInDollars = totalPrice;
     const amountInCents = Math.round(amountInDollars * 100);
     const { error, paymentMethod } = await stripe.createPaymentMethod({
@@ -42,11 +48,12 @@ const CheckOut = ({ formData, totalPrice }) => {
           id_payment: id,
           amount: amountInCents,
           // user_id: user.id,s
-          formData,
-          client_email: "yairmasterlol@gmail.com",
+          formData: { ...formData, pdf, id_user: user.id },
+          client_email: formData.email,
         })
         .then((res) => {
           console.log(res.data);
+          console.log(getPDF(formData));
           toast.success("Pago realizado con éxito");
           navigate("/");
         })
@@ -57,6 +64,7 @@ const CheckOut = ({ formData, totalPrice }) => {
         .finally(() => setLoader(false));
     }
   };
+
   return (
     <form onSubmit={handleSubmit}>
       {/* <div className="text-lg mb-2 text-white">Datos de pago</div> */}
@@ -66,7 +74,10 @@ const CheckOut = ({ formData, totalPrice }) => {
       <div className="">
         <CardElement className="bg-gray-100  border-2 border-gray-700 rounded-md p-4" />
       </div>
-      <button disabled={loader} className="btn  btn-info w-full mt-2 ">
+      <button
+        disabled={loader}
+        className="btn  btn-info text-white text-lg w-full mt-2 "
+      >
         {loader ? <Loader /> : `Reservar por $${totalPrice}`}
       </button>
     </form>

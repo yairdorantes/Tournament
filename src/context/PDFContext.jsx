@@ -1,18 +1,24 @@
-import { useEffect, useState } from "react";
+import { createContext, useState } from "react";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import logoImage from "../media/xd.png";
-
-const PDFComp = ({ data }) => {
-  const [pdfBase644, setPdfBase64] = useState("");
-  useEffect(() => {
-    generatePDF().then((pdfBytes) => {
-      const base64 = btoa(String.fromCharCode(...pdfBytes));
-      setPdfBase64(base64);
-      // console.log(base64);
+const PDFContext = createContext();
+export const PDFProvider = ({ children }) => {
+  //   const navigate = useNavigate();
+  const [pdfBase64, setPdfBase64] = useState("");
+  const getPDF = (data) => {
+    return new Promise((resolve, reject) => {
+      generatePDF(data)
+        .then((pdfBytes) => {
+          const base64 = btoa(String.fromCharCode(...pdfBytes));
+          setPdfBase64(base64);
+          console.log("created PDF");
+          resolve(base64); // Resolve the promise with the base64 value
+        })
+        .catch(reject);
     });
-  }, []);
+  };
 
-  async function generatePDF() {
+  async function generatePDF(data) {
     const pdfDoc = await PDFDocument.create();
     const page = pdfDoc.addPage();
 
@@ -115,17 +121,17 @@ const PDFComp = ({ data }) => {
     });
 
     const tableData = [
-      ["ID de oficina o salón", "1234"],
-      ["Nombre completo", "Yair Ismael Master Master"],
-      ["Correo electrónico de registro", "yairMasterlol@gmail.com"],
+      ["ID de oficina o salón", data["id_building"]],
+      ["Nombre completo", data["name"]],
+      ["Correo electrónico de registro", data["email"]],
       ["Empresa encargada", "nubox"],
-      ["Fecha de petición", "25/08/2002"],
-      ["Hora inicio y fin", "10:00 pm - 1:00 am"],
-      ["Capacidad", "100 personas"],
+      ["Fecha de petición", data["date"]],
+      ["Hora inicio y fin", `${data["hr_start"]} - ${data["hr_end"]}`],
+      ["Capacidad", data["num_people"]],
       ["Código de reservación", "202015012"],
       ["Número de edificio", "20"],
       ["Ubicación", "Lomas a Geo 15 Av. Siempre Viva"],
-      ["Precio", "45,000 (cuarenta y cinco mil pesos)"],
+      ["Precio", data["price"]],
       ["", ""],
     ];
 
@@ -164,35 +170,15 @@ const PDFComp = ({ data }) => {
     return pdfBytes;
   }
 
+  const contextData = {
+    // isOpenAuth,
+    getPDF,
+    pdfBase64,
+  };
+
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        height: "100vh",
-      }}
-    >
-      <div style={{ marginTop: "20px", fontSize: "2em" }}>HOLA</div>
-      {pdfBase644 && (
-        <div
-          style={{
-            width: "90%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flex: 1,
-          }}
-        >
-          <iframe
-            src={`data:application/pdf;base64,${pdfBase644}`}
-            title="Generated PDF"
-            style={{ width: "100%", height: "100%" }}
-          />
-        </div>
-      )}
-    </div>
+    <PDFContext.Provider value={contextData}>{children}</PDFContext.Provider>
   );
 };
 
-export default PDFComp;
+export default PDFContext;
