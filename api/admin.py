@@ -1,5 +1,5 @@
 from django.contrib import admin
 
-from .models import Building, Reservation
+from .models import Building, Reservation, UserModel
 
-admin.site.register([Building, Reservation])
+admin.site.register([Building, Reservation, UserModel])
