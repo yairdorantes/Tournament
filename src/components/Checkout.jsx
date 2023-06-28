@@ -3,22 +3,22 @@ import StripeCom from "./StripeCom";
 import { api } from "../api";
 import { useEffect, useState } from "react";
 
-const Checkout = ({ formData, price, id }) => {
-  const [building, setBuilding] = useState({});
-  const getBuilding = () => {
-    axios
-      .get(`${api}/building/${id}`)
-      .then((res) => {
-        // console.log(res.data.building, "here");
-        setBuilding(res.data.building);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  useEffect(() => {
-    getBuilding();
-  }, []);
+const Checkout = ({ formData, price, id, building }) => {
+  // const [building, setBuilding] = useState({});
+  // const getBuilding = () => {
+  //   axios
+  //     .get(`${api}/building/${id}`)
+  //     .then((res) => {
+  //       // console.log(res.data.building, "here");
+  //       setBuilding(res.data.building);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+  // useEffect(() => {
+  //   getBuilding();
+  // }, []);
 
   console.log(formData);
   return (
@@ -39,7 +39,12 @@ const Checkout = ({ formData, price, id }) => {
           // referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-      <StripeCom id={id} formData={formData} totalPrice={price} />
+      <StripeCom
+        building={building}
+        id={id}
+        formData={formData}
+        totalPrice={price}
+      />
     </div>
   );
 };

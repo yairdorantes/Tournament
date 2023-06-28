@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import bgMap from "../media/map.jpg";
 import { Link } from "react-router-dom";
 import BuildSelected from "./BuildSelected";
 import axios from "axios";
 import { api } from "../api";
+import Addbuild from "./Addbuild";
+import AuthContext from "../context/AuthContext";
 
 const Maps = () => {
   const [buildSelected, setBuildSelected] = useState({});
   const [showBuilding, setShowBuilding] = useState(false);
   const [buildings, setBuildings] = useState([]);
+  const { user } = useContext(AuthContext);
   const getBuildings = () => {
     axios
       .get(`${api}/building`)
@@ -99,6 +102,9 @@ const Maps = () => {
             </div>
           ))}
         </div>
+        {user.is_admin && Object.keys(buildSelected).length !== 0 && (
+          <Addbuild id={buildSelected.id} />
+        )}
       </div>
       <BuildSelected
         show={showBuilding}

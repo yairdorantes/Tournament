@@ -8,6 +8,7 @@ import Login from "../components/Login";
 import Signup from "../components/Signup";
 import PrivateRoute from "./PrivateRoute";
 import UserReservation from "../components/UserReservation";
+import Admin from "../components/Admin";
 const Myrouter = () => {
   return (
     <Routes>
@@ -19,6 +20,7 @@ const Myrouter = () => {
         <Route path="/pdf" element={<PDFComp />} />
         <Route path="/list" element={<ListBuilds />} />
         <Route path="/check" element={<Checkout />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/reservations/:id" element={<UserReservation />} />
       </Route>
     </Routes>

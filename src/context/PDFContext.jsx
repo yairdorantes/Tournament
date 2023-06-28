@@ -128,9 +128,8 @@ export const PDFProvider = ({ children }) => {
       ["Fecha de petición", data["date"]],
       ["Hora inicio y fin", `${data["hr_start"]} - ${data["hr_end"]}`],
       ["Capacidad", data["num_people"]],
-      ["Código de reservación", "202015012"],
-      ["Número de edificio", "20"],
-      ["Ubicación", "Lomas a Geo 15 Av. Siempre Viva"],
+      ["Código de reservación", data["clave"]],
+      ["Ubicación", data["location"]],
       ["Precio", data["price"]],
       ["", ""],
     ];

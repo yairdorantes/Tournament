@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import TimePicker from "./TimePicker";
 import { toast } from "react-hot-toast";
 import Checkout from "./Checkout";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { api } from "../api";
 // import StripeCom from "./StripeCom";
 
 const FormBuy = () => {
@@ -15,6 +17,7 @@ const FormBuy = () => {
   // change this to true
   const [formData, setFormData] = useState({});
   const { price, id } = useParams();
+  const [building, setBuilding] = useState({});
   const {
     register,
     handleSubmit,
@@ -27,10 +30,8 @@ const FormBuy = () => {
     if (hrStart !== "00:00" && hrEnd !== "00:00") {
       if (hrStart === hrEnd) {
         toast.error("Selecciona otro rango de horas");
-      } else if (data.date === "2023-06-08") {
-        console.log("fecha here");
       } else {
-        toast.success("ey");
+        toast.success("Información procesada correctamente ");
         // window.location.href = "/check";
         const newData = {
           ...data,
@@ -47,6 +48,21 @@ const FormBuy = () => {
       toast.error("Llena todo los campos por favor");
     }
   };
+  const getBuilding = () => {
+    axios
+      .get(`${api}/building/${id}`)
+      .then((res) => {
+        console.log(res.data);
+        setBuilding(res.data.building);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getBuilding();
+  }, []);
 
   return (
     <>
@@ -215,7 +231,14 @@ const FormBuy = () => {
           />
         </div>
       )}
-      {!showing && <Checkout price={price} id={id} formData={formData} />}
+      {!showing && (
+        <Checkout
+          price={price}
+          building={building}
+          id={id}
+          formData={formData}
+        />
+      )}
     </>
   );
 };

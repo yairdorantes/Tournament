@@ -60,7 +60,7 @@ const BuildSelected = ({ show, setShow, building }) => {
               <Link to={`/building/${building.id}/${building.price}`}>
                 <div className="text-center">
                   <button
-                    disabled={!building.available}
+                    disabled={!building.available || !show}
                     className={`select-none hover:scale-105 cursor-pointer ${
                       building.available ? "bg-cyan-400 " : "bg-red-400"
                     } text-white font-bold p-2 rounded-3xl w-1/2 text-center mx-auto `}

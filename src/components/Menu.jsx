@@ -18,7 +18,11 @@ const Menu = () => {
             </div>
           </Link>
 
-          <div className="text-white h-2 opacity-0 group-hover:opacity-100  group-hover:h-14 transition-all duration-500 grid grid-cols-2">
+          <div
+            className={`grid ${
+              user.is_admin ? "grid-cols-3" : "grid-cols-2"
+            }  text-white h-2 opacity-0 group-hover:opacity-100  group-hover:h-14 transition-all duration-500 `}
+          >
             <Link to="/">
               <div className="flex h-full  hover:bg-[#2164BD] p-2 justify-center mb-1 gap-2 font-Lilita text-xl">
                 <div>
@@ -36,6 +40,24 @@ const Menu = () => {
                 <div className="mt-2">Inicio</div>
               </div>
             </Link>
+            {user.is_admin && (
+              <Link to="/admin">
+                <div className="flex h-full  hover:bg-[#2164BD] p-2 justify-center mb-1 gap-2 font-Lilita text-xl">
+                  <div>
+                    <svg
+                      className="w-8 h-8"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      height="1em"
+                      width="1em"
+                    >
+                      <path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z" />
+                    </svg>
+                  </div>
+                  <div className="mt-2">Administrador</div>
+                </div>
+              </Link>
+            )}
             <Link to={`/reservations/${user.id}`}>
               <div className="flex h-full  justify-center hover:bg-[#2164BD] duration-300 transition-all p-2  mb-1 gap-2 font-Lilita text-xl">
                 <svg
