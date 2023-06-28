@@ -21,6 +21,9 @@ import cryptoRandomString from "crypto-random-string";
 const stripePromise = loadStripe(
   "pk_test_51KjBqNA9KCn8yVMOEG2TF4LAS9CZwMVfMuAIHu1opMaabVxmgUri9qkETyQ9Q7DGyB6g9bNxEg62zf6dsqQZGdij00t1hmBwwH"
 );
+// const stripePromise = loadStripe(
+//   "pk_live_51KjBqNA9KCn8yVMO98jMn54DDq0dIPKklBcNWUKFLlSvVGEtqzJ5sHlmJ5MaUKUaphT20Qyt8gPW6TaPkVtUSMv900QVTGcMpg"
+// );
 
 const CheckOut = ({ formData, totalPrice, building }) => {
   const { getPDF, pdfBase64 } = useContext(PDFContext);

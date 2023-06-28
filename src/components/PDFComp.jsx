@@ -3,12 +3,12 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import logoImage from "../media/xd.png";
 
 const PDFComp = ({ data }) => {
-  const [pdfBase644, setPdfBase64] = useState("");
+  const [pdfBase64, setPdfBase64] = useState("");
+
   useEffect(() => {
     generatePDF().then((pdfBytes) => {
       const base64 = btoa(String.fromCharCode(...pdfBytes));
       setPdfBase64(base64);
-      // console.log(base64);
     });
   }, []);
 
@@ -17,6 +17,8 @@ const PDFComp = ({ data }) => {
     const page = pdfDoc.addPage();
 
     const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+    const titleFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
     const textFontSize = 17;
     const smallFontSize = 20;
     const tableFontSize = 14;
@@ -42,29 +44,52 @@ const PDFComp = ({ data }) => {
     const title = "Nubox";
     const titleFontSize = 40;
     const titleWidth = font.widthOfTextAtSize(title, titleFontSize);
-    const titleX = (width - titleWidth) / 2;
+    const titleX = width - titleWidth - 450;
     const titleY =
       height - stripeHeight + stripeHeight / 2 - titleFontSize / 2 + 7;
     page.drawText(title, {
       x: titleX,
       y: titleY,
       size: titleFontSize,
-      font: font,
+      font: titleFont,
       color: rgb(1, 1, 1),
     });
 
     page.drawImage(logoImageEmbed, {
-      x: 5,
+      x: 400,
       y: height - 50,
       width: 50,
       height: 50,
     });
 
-    page.drawImage(logoImageEmbed, {
-      x: width - 55,
-      y: height - 50,
-      width: 50,
-      height: 50,
+    const stripeText = "un buen lugar para";
+    const stripeTextFontSize = 17;
+    const stripeTextWidth = font.widthOfTextAtSize(
+      stripeText,
+      stripeTextFontSize
+    );
+    const stripeTextX = 400 + 50 + 10;
+    const stripeTextY =
+      height - stripeHeight + stripeHeight / 2 - stripeTextFontSize / -5;
+    page.drawText(stripeText, {
+      x: stripeTextX,
+      y: stripeTextY,
+      size: stripeTextFontSize,
+      font: font,
+      color: rgb(1, 1, 1),
+    });
+
+    const logoText2 = "un buen momento";
+    const logoText2FontSize = 17;
+    const logoText2X = 400 + 50 + 10;
+    const logoText2Y =
+      height - stripeHeight + stripeHeight / 2 - stripeTextFontSize - 1;
+    page.drawText(logoText2, {
+      x: logoText2X,
+      y: logoText2Y,
+      size: logoText2FontSize,
+      font: font,
+      color: rgb(1, 1, 1),
     });
 
     const rentaText = "Renta de espacios que te dan libertad y flexibilidad";
@@ -81,18 +106,15 @@ const PDFComp = ({ data }) => {
     });
 
     const nuboxText =
-      "Nubox: Renta de Espacios que te Dan Libertad y Flexibilidad.\nOficinas y salones en alquiler, diseñados para adaptarse a tus necesidades empresariales.\nContratos flexibles por horas, días o meses.\nEspacios equipados con tecnología de vanguardia y servicios adicionales.\nTrabaja con comodidad y libertad en Nubox.\nContáctanos ahora mismo.";
+      "fecha:25/11/2023                                        proveedor: samanta & yair\nID Salon/Oficina:                                                  Empresa:_________\n    #262511\n";
 
     const nuboxTextLines = nuboxText.split("\n");
     const nuboxTextHeight =
       textFontSize * lineHeightMultiplier * nuboxTextLines.length;
     const nuboxTextX = (width * 0.1) / 2;
-
-    // Ajustar la separación vertical entre los textos
     const rentaTextHeight = textFontSize * lineHeightMultiplier;
-    const separation = 10; // Separación vertical deseada entre los textos
     const rentaTextYAdjusted = 885;
-    const nuboxTextY = rentaTextYAdjusted - nuboxTextHeight;
+    const nuboxTextY = rentaTextYAdjusted - nuboxTextHeight - 70;
 
     page.drawText(rentaText, {
       x: rentaTextX,
@@ -108,32 +130,41 @@ const PDFComp = ({ data }) => {
       y: nuboxTextY,
       size: textFontSize,
       font: font,
-      color: rgb(0, 0.53, 0.71),
+      color: rgb(0, 0.1, 0.1),
       lineHeight: textFontSize * lineHeightMultiplier,
       maxWidth: width * 0.8,
       align: "justify",
     });
+    //text arriba de la tabla
 
+    //jajajaa fil
     const tableData = [
-      ["ID de oficina o salón", "1234"],
-      ["Nombre completo", "Yair Ismael Master Master"],
-      ["Correo electrónico de registro", "yairMasterlol@gmail.com"],
-      ["Empresa encargada", "nubox"],
-      ["Fecha de petición", "25/08/2002"],
-      ["Hora inicio y fin", "10:00 pm - 1:00 am"],
-      ["Capacidad", "100 personas"],
-      ["Código de reservación", "202015012"],
-      ["Número de edificio", "20"],
-      ["Ubicación", "Lomas a Geo 15 Av. Siempre Viva"],
-      ["Precio", "45,000 (cuarenta y cinco mil pesos)"],
-      ["", ""],
+      ["HOTEL INN", "100 PEGGGOOS", "1,000"],
+      ["HOTEL PICASSO", "5 PEGOS", "4,000"],
+      ["SALON FMK", "10 PEGOS", "5,000"],
+      ["BURJ KHALIFA", "300 PEGOS", "1,000,000"],
+      ["", "                        SubTotal:", "mucho dinero"],
     ];
 
     const tableX = 20;
-    const tableY = 500; // Ajustar la posición vertical de la tabla
+    const tableY = 580;
     const cellMargin = 25;
-    const cellWidth = (width - 2 * tableX) / 2;
-    const cellHeight = 40;
+    const cellWidth = (width - 2 * tableX - 20) / 3;
+    const cellHeight = 45;
+
+    //inicio
+    const textoArribaTabla =
+      "     RESERVACION                        CAPACIDAD                               TOTAL";
+    const textoArribaTablaY = tableY + 15;
+
+    page.drawText(textoArribaTabla, {
+      x: tableX,
+      y: textoArribaTablaY,
+      size: tableFontSize,
+      font: font,
+      color: rgb(0, 0, 0),
+    });
+    //fin
 
     tableData.forEach((row, rowIndex) => {
       row.forEach((cell, columnIndex) => {
@@ -155,9 +186,58 @@ const PDFComp = ({ data }) => {
           height: cellHeight,
           borderWidth: 0.5,
           borderColor: rgb(0, 0, 0),
-          fillColor: rgb(0.9, 0.9, 0.9), // Color de fondo de las celdas
+          fillColor: rgb(0.9, 0.9, 0.9),
         });
       });
+    });
+
+    // Agregar texto debajo de la tabla en un recuadro azul claro
+    const contactText =
+      "Numero: 722-123-4321                Correo: samLaPatrona@gmail.com";
+    const contactTextX = tableX;
+    const contactTextY = tableY - tableData.length * cellHeight - 80;
+    const contactTextWidth = font.widthOfTextAtSize(contactText, textFontSize);
+    const contactTextHeight = textFontSize * lineHeightMultiplier;
+    const blueColor = rgb(0.3, 0.3, 1);
+    page.drawRectangle({
+      x: contactTextX,
+      y: contactTextY,
+      width: contactTextWidth + 20,
+      height: contactTextHeight + 0.5,
+      borderColor: blueColor,
+      borderWidth: 1,
+      color: blueColor,
+    });
+    page.drawText(contactText, {
+      x: contactTextX + 10,
+      y: contactTextY + 5,
+      size: textFontSize,
+      font: font,
+      color: rgb(0, 0, 0),
+    });
+
+    // Agregar código de confirmación debajo del texto de contacto
+    const confirmationCode = "Código de confirmación:";
+    const confirmationCodeX = contactTextX;
+    const confirmationCodeY = contactTextY - contactTextHeight - 10;
+    page.drawText(confirmationCode, {
+      x: confirmationCodeX + 10,
+      y: confirmationCodeY + 5,
+      size: textFontSize,
+      font: font,
+      color: rgb(0, 0, 0),
+    });
+
+    // Agregar texto "Hola mundo" debajo del código de confirmación
+    const helloWorldText = "CsUaLmIpTuO RtIaCO DESAM";
+    const helloWorldTextX = contactTextX;
+    const helloWorldTextY = confirmationCodeY - contactTextHeight - 10;
+    page.drawText(helloWorldText, {
+      x: helloWorldTextX + 10,
+      y: helloWorldTextY + 5,
+      size: textFontSize,
+      font: font,
+      color: rgb(0, 0, 0),
     });
 
     const pdfBytes = await pdfDoc.save();
@@ -173,8 +253,8 @@ const PDFComp = ({ data }) => {
         height: "100vh",
       }}
     >
-      <div style={{ marginTop: "20px", fontSize: "2em" }}>HOLA</div>
-      {pdfBase644 && (
+      <div style={{ marginTop: "10px", fontSize: "2em" }}>HOLA</div>
+      {pdfBase64 && (
         <div
           style={{
             width: "90%",
@@ -185,7 +265,7 @@ const PDFComp = ({ data }) => {
           }}
         >
           <iframe
-            src={`data:application/pdf;base64,${pdfBase644}`}
+            src={`data:application/pdf;base64,${pdfBase64}`}
             title="Generated PDF"
             style={{ width: "100%", height: "100%" }}
           />
