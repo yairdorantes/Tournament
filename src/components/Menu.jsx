@@ -6,9 +6,9 @@ const Menu = () => {
   const { user } = useContext(AuthContext);
 
   return (
-    <nav className="fixed  h-34 top-0 left-0 right-0 flex justify-center">
+    <nav className="fixed   -top-2">
       {user && (
-        <div className="w-screen bg-[#1AA7EE] group">
+        <div className="w-screen  bg-[#1AA7EE] group">
           <Link to={"/"}>
             <div className="flex items-end mt-2 justify-center gap-2">
               <img src={logo} className="w-12" alt="" />
@@ -19,9 +19,11 @@ const Menu = () => {
           </Link>
 
           <div
-            className={`grid ${
-              user.is_admin ? "grid-cols-3" : "grid-cols-2"
-            }  text-white h-2 opacity-0 group-hover:opacity-100  group-hover:h-14 transition-all duration-500 `}
+            className={`grid  ${
+              user.is_admin
+                ? "sm:grid-cols-3 grid-cols-1"
+                : "sm:grid-cols-2 grid-cols-1"
+            }  text-white h-2 opacity-0 group-hover:opacity-100    sm:group-hover:h-14   group-hover:h-full  transition-all duration-500 `}
           >
             <Link to="/">
               <div className="flex h-full  hover:bg-[#2164BD] p-2 justify-center mb-1 gap-2 font-Lilita text-xl">

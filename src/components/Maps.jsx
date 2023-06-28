@@ -28,18 +28,9 @@ const Maps = () => {
   }, []);
 
   return (
-    <div className="pt-[80px]">
-      {/* <input type="date" /> */}
-      {/* <div className="text-white text-lg text-center font-bold">
-        Edificio seleccionado:
-        <Link to={`/building/${buildSelected.id}`}>
-          {" "}
-          <span className="link link-info">{buildSelected.title}</span>
-        </Link>
-      </div> */}
-
+    <div className="pt-[80px]  ">
       <div
-        className="min-h-screen w-screen p-5  bg-cover rounded-lg  bg-center pt-5 "
+        className="min-h-screen    p-5  bg-cover rounded-lg  bg-center pt-5 "
         style={{
           backgroundImage: `linear-gradient(rgba(4, 4, 4, 0.787), rgba(12, 12, 12, 0.839)), url(${bgMap})`,
         }}
