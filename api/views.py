@@ -56,6 +56,17 @@ class ReservationsView(View):
             return JsonResponse({"reservations": reservations})
 
 
+class ClientsView(View):
+    def get(self, request, client_id=0):
+        if client_id > 0:
+            client = UserModel.objects.filter(id=client_id).first()
+            client = model_to_dict(client)
+            return JsonResponse({"client": client})
+        else:
+            clients = list(UserModel.objects.values())
+            return JsonResponse({"clients": clients})
+
+
 class BuildingView(View):
     def get(self, request, id=0):
         if id > 0:
@@ -76,6 +87,7 @@ class CheckOutStripeView(View):
         jd = json.loads(request.body)
         # print(jd["formData"])
         client_email = jd["client_email"]
+        building_id = jd["formData"]["id_building"]
         try:
             payment_intent = stripe.PaymentIntent.create(
                 amount=jd["amount"],  # Amount in cents
@@ -86,6 +98,9 @@ class CheckOutStripeView(View):
             )
             if payment_intent.status == "succeeded":
                 Reservation.objects.create(**jd["formData"])
+                building = Building.objects.get(id=building_id)
+                building.available = False
+                building.save()
                 pdf = jd["formData"]["pdf"]
                 try:
                     subject = "Compra de inmueble"

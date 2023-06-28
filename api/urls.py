@@ -6,12 +6,15 @@ from .views import (
     LoginView,
     SignupView,
     ReservationsView,
+    ClientsView,
 )
 from django.views.decorators.csrf import csrf_exempt
 
 urlpatterns = [
     # path("", csrf_exempt(save_musicians.as_view()), name="musicians"),
     path("test", csrf_exempt(Test.as_view()), name="musicians"),
+    path("clients", csrf_exempt(ClientsView.as_view()), name="clients"),
+    path("clients/<int:client_id>", csrf_exempt(ClientsView.as_view()), name="clients"),
     path("reservations", csrf_exempt(ReservationsView.as_view()), name="reservs"),
     path(
         "reservations/<int:id>", csrf_exempt(ReservationsView.as_view()), name="reservs"

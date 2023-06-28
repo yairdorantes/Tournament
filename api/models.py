@@ -27,7 +27,7 @@ class UserModel(models.Model):
     email = models.EmailField(verbose_name="email")
     city = models.CharField(max_length=100, default="", verbose_name="Ciudad")
     password = models.CharField(max_length=100, verbose_name="contrasena")
-    is_admin = models.BooleanField(default=False, verbose_name="")
+    is_admin = models.BooleanField(default=False, verbose_name="admin?")
 
     def __str__(self) -> str:
         return self.name
@@ -45,6 +45,7 @@ class Reservation(models.Model):
     hr_end = models.CharField(max_length=10, verbose_name="Hora final")
     price = models.FloatField(verbose_name="Precio")
     pdf = models.TextField(verbose_name="pdf")
+    clave = models.CharField(max_length=20, default="", verbose_name="clave")
     id_user = models.PositiveIntegerField(verbose_name="usuario", default=0)
 
     def __str__(self) -> str:
