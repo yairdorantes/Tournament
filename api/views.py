@@ -79,6 +79,7 @@ class BuildingView(View):
 
 
 stripe.api_key = "sk_test_51KjBqNA9KCn8yVMONc3gFAYwrG6HbwHVDeQ3sxLolr9K5iJHSXRmm8FXpkRFtJp7n5WWCjVjmCOlyHYObMnSVRlL00Y6KfPvVR"
+# stripe.api_key = "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"
 
 
 # the api key is the secret key (not public key)
